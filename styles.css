@@ -102,7 +102,7 @@ section {
 }
 
 .logo img {
-    height: 60px;
+    height: 80px;
     transition: var(--transition);
 }
 
@@ -806,3 +806,4 @@ footer {
         grid-template-columns: 1fr;
     }
 }
+
