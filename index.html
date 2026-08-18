@@ -92,7 +92,7 @@
   .theme-toggle svg{ width:12px; height:12px; }
 
   .hero{ position:relative; overflow:hidden; min-height:88vh; display:flex; align-items:center; padding:140px 32px 90px; }
-  .hero-bg{ position:absolute; inset:0; z-index:0; width:100%; height:100%; }
+  .hero-bg{ position:absolute; inset:0; z-index:0; width:100%; height:100%; transition:transform .5s cubic-bezier(.2,.8,.2,1); will-change:transform; }
   .hero-scrim{ position:absolute; inset:0; z-index:1; background:linear-gradient(115deg, rgba(6,13,28,0.92) 0%, rgba(8,17,36,0.82) 42%, rgba(8,17,36,0.55) 75%, rgba(8,17,36,0.35) 100%); }
   .hero-inner{ max-width:1160px; margin:0 auto; position:relative; z-index:2; width:100%; }
   .hero .eyebrow{ margin-bottom:16px; display:block; color:var(--gold-bright); }
@@ -117,10 +117,25 @@
   .section-head p{ margin-top:14px; color:var(--text-soft); font-size:1.01rem; line-height:1.6; }
   .center{ text-align:center; margin-left:auto; margin-right:auto; }
 
+  .divider{ display:block; width:100%; height:60px; margin-top:-1px; }
+  .stats{ background:var(--navy); color:#fff; padding:64px 32px; }
+  .stats .wrap{ display:grid; grid-template-columns:repeat(4,1fr); gap:32px; }
+  @media (max-width:800px){ .stats .wrap{ grid-template-columns:1fr 1fr; } }
+  .stat-item{ text-align:center; }
+  .stat-item .num{ font-family:'Fraunces', serif; font-weight:800; font-size:clamp(2rem,4vw,2.8rem); color:var(--gold-bright); line-height:1; }
+  .stat-item .label{ margin-top:10px; font-family:'IBM Plex Mono', monospace; font-size:0.72rem; letter-spacing:0.08em; text-transform:uppercase; color:#C9CEDD; }
+
   .why{ background:var(--card); transition:background-color .45s ease; }
   .why-list{ display:grid; grid-template-columns:repeat(5, 1fr); gap:1px; background:var(--border); border:1px solid var(--border); }
-  .why-card{ background:var(--card); padding:30px 22px; display:flex; flex-direction:column; gap:12px; transition:background-color .3s ease, transform .3s ease; }
+  .why-card{ background:var(--card); padding:30px 22px; display:flex; flex-direction:column; gap:12px; position:relative; isolation:isolate; transition:background-color .3s ease, transform .3s ease; }
+  .why-card::before{
+    content:""; position:absolute; inset:0; z-index:0; opacity:0; pointer-events:none;
+    background:radial-gradient(200px circle at var(--mx,50%) var(--my,50%), rgba(201,162,39,0.12), transparent 70%);
+    transition:opacity .35s ease;
+  }
+  .why-card:hover::before{ opacity:1; }
   .why-card:hover{ transform:translateY(-4px); }
+  .why-card > *{ position:relative; z-index:1; }
   .why-card .icon{ width:44px; height:44px; border-radius:50%; background:var(--navy); color:var(--white); display:flex; align-items:center; justify-content:center; flex-shrink:0; transition:background .3s; }
   .why-card:hover .icon{ background:var(--gold); }
   .why-card h3{ font-size:1rem; font-family:'Inter'; font-weight:700; }
@@ -128,13 +143,24 @@
   @media (max-width:1000px){ .why-list{ grid-template-columns:1fr 1fr; } }
   @media (max-width:560px){ .why-list{ grid-template-columns:1fr; } }
 
-  .services{ background:var(--bg); }
-  .service-grid{ display:grid; grid-template-columns:repeat(4, 1fr); gap:1px; background:var(--border); border:1px solid var(--border); }
-  .service-card{ background:var(--card); padding:32px 24px; display:flex; flex-direction:column; gap:12px; transition:background-color .3s ease, transform .3s ease, box-shadow .3s ease; }
-  .service-card:hover{ transform:translateY(-6px); box-shadow:var(--shadow); z-index:2; position:relative; }
-  .service-card .icon{ width:46px; height:46px; display:flex; align-items:center; justify-content:center; border-radius:10px; background:rgba(201,162,39,0.14); transition:transform .3s ease; }
-  .service-card:hover .icon{ transform:scale(1.08) rotate(-4deg); }
-  .service-card h3{ font-size:1rem; font-family:'Inter'; font-weight:700; line-height:1.3; }
+  .services{ background:var(--bg); position:relative; }
+  .service-grid{ display:grid; grid-template-columns:repeat(4, 1fr); gap:22px; }
+  .service-card{
+    background:var(--card); border:1px solid var(--border); border-radius:14px; overflow:hidden;
+    display:flex; flex-direction:column; position:relative; isolation:isolate;
+    transition:transform .4s cubic-bezier(.2,.8,.2,1), box-shadow .4s ease, border-color .3s ease;
+  }
+  .service-card::before{
+    content:""; position:absolute; inset:0; z-index:0; opacity:0; pointer-events:none;
+    background:radial-gradient(240px circle at var(--mx,50%) var(--my,50%), rgba(201,162,39,0.16), transparent 70%);
+    transition:opacity .35s ease;
+  }
+  .service-card:hover::before{ opacity:1; }
+  .service-card:hover{ transform:translateY(-8px); box-shadow:var(--shadow); border-color:rgba(201,162,39,0.35); z-index:2; }
+  .service-art{ height:132px; position:relative; overflow:hidden; }
+  .service-art svg{ width:100%; height:100%; display:block; }
+  .service-body{ padding:22px 22px 26px; display:flex; flex-direction:column; gap:10px; position:relative; z-index:1; }
+  .service-card h3{ font-size:1.02rem; font-family:'Inter'; font-weight:700; line-height:1.3; }
   .service-card .rule{ width:26px; height:2px; background:var(--gold); transition:width .3s ease; }
   .service-card:hover .rule{ width:44px; }
   .service-card p{ font-size:0.86rem; line-height:1.55; color:var(--text-soft); margin:0; }
@@ -311,6 +337,17 @@
   </div>
 </section>
 
+<svg class="divider" viewBox="0 0 1600 60" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg"><path d="M0 0 L1600 0 L1600 30 L0 60 Z" fill="var(--navy)"/></svg>
+<section class="stats">
+  <div class="wrap">
+    <div class="stat-item reveal"><div class="num" data-count="40">0</div><div class="label">Projects Delivered</div></div>
+    <div class="stat-item reveal"><div class="num" data-count="9">0</div><div class="label">Industries Served</div></div>
+    <div class="stat-item reveal"><div class="num" data-count="98">0</div><div class="label">% Client Satisfaction</div></div>
+    <div class="stat-item reveal"><div class="num" data-count="6">0</div><div class="label">Core Services</div></div>
+  </div>
+</section>
+<svg class="divider" viewBox="0 0 1600 60" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg"><path d="M0 60 L1600 60 L1600 30 L0 0 Z" fill="var(--navy)"/></svg>
+
 <section class="why" id="why">
   <div class="wrap">
     <div class="section-head center reveal">
@@ -355,15 +392,184 @@
       <p class="center">From design to development to data — everything your business needs under one roof.</p>
     </div>
     <div class="service-grid">
-      <div class="service-card reveal"><div class="icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M4 20c2-1 3-3 3-5 0-3 2-5 5-5 4 0 7 3 7 7 0 1-1 2-2 1-1-1-2 0-2 1s1 2 0 3c-2 1-4 0-5-1" stroke="#0B1E3D" stroke-width="1.4"/><circle cx="8" cy="8" r="1.3" fill="#C9A227"/></svg></div><h3>Canva Designing</h3><div class="rule"></div><p>Creative designs that make your brand stand out.</p></div>
-      <div class="service-card reveal"><div class="icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none"><rect x="4" y="4" width="16" height="16" rx="2" stroke="#0B1E3D" stroke-width="1.4"/><circle cx="9" cy="9" r="1.4" fill="#C9A227"/><path d="M9 9v6M9 15h6M15 9v3" stroke="#0B1E3D" stroke-width="1.2"/></svg></div><h3>PCB Design</h3><div class="rule"></div><p>High-quality PCB designs for innovative and reliable electronics.</p></div>
-      <div class="service-card reveal"><div class="icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M5 19V10M11 19V5M17 19v-7" stroke="#0B1E3D" stroke-width="1.6"/></svg></div><h3>Data Analysis &amp; Visualization</h3><div class="rule"></div><p>Turn your data into powerful insights for smarter decisions.</p></div>
-      <div class="service-card reveal"><div class="icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none"><rect x="7" y="3" width="10" height="18" rx="2" stroke="#0B1E3D" stroke-width="1.4"/><circle cx="12" cy="18" r="0.8" fill="#C9A227"/></svg></div><h3>App Development</h3><div class="rule"></div><p>User-friendly, fast &amp; scalable mobile apps for Android &amp; iOS platforms.</p></div>
-      <div class="service-card reveal"><div class="icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none"><rect x="3" y="4" width="18" height="13" rx="1.5" stroke="#0B1E3D" stroke-width="1.4"/><path d="M9 21h6M12 17v4" stroke="#0B1E3D" stroke-width="1.4"/><path d="M8 10l2 2-2 2M14 14h2" stroke="#C9A227" stroke-width="1.3"/></svg></div><h3>Frontend Web Development</h3><div class="rule"></div><p>Modern, responsive web designs that deliver great user experiences.</p></div>
-      <div class="service-card reveal"><div class="icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none"><rect x="4" y="4" width="16" height="6" rx="1.2" stroke="#0B1E3D" stroke-width="1.4"/><rect x="4" y="14" width="16" height="6" rx="1.2" stroke="#0B1E3D" stroke-width="1.4"/><circle cx="7.5" cy="7" r="0.8" fill="#C9A227"/><circle cx="7.5" cy="17" r="0.8" fill="#C9A227"/></svg></div><h3>Backend Web Development</h3><div class="rule"></div><p>Robust backend solutions to power your applications seamlessly.</p></div>
-      <div class="service-card reveal"><div class="icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M8 6L4 12l4 6M16 6l4 6-4 6" stroke="#0B1E3D" stroke-width="1.5"/></svg></div><h3>Full-Stack Web Development</h3><div class="rule"></div><p>End-to-end web solutions from UI to backend — we build it all.</p></div>
-      <div class="service-card reveal"><div class="icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M3 10v4h3l5 4V6l-5 4H3Z" stroke="#0B1E3D" stroke-width="1.4"/><path d="M16 9c1.2 1 1.2 5 0 6M19 7c2 2 2 8 0 10" stroke="#C9A227" stroke-width="1.4"/></svg></div><h3>Marketing &amp; Promotion</h3><div class="rule"></div><p>Grow your brand and reach the right audience with smart marketing strategies.</p></div>
-    </div>
+      <div class="service-card reveal">
+        <div class="service-art">
+          <svg viewBox="0 0 300 132" preserveAspectRatio="xMidYMid slice">
+            <defs><linearGradient id="g1" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#0B1E3D"/><stop offset="100%" stop-color="#1A3560"/></linearGradient></defs>
+            <rect width="300" height="132" fill="url(#g1)"/>
+            <circle cx="70" cy="45" r="26" fill="#E8C15A" opacity="0.9"/>
+            <circle cx="105" cy="70" r="18" fill="#C9A227" opacity="0.85"/>
+            <circle cx="55" cy="85" r="14" fill="#F2EFE6" opacity="0.75"/>
+            <circle cx="120" cy="40" r="10" fill="#8C6427" opacity="0.9"/>
+            <path d="M150 100 C170 60 210 40 250 35" stroke="#F2EFE6" stroke-width="2.4" fill="none" stroke-linecap="round" opacity="0.85"/>
+            <circle cx="250" cy="35" r="5" fill="#E8C15A"/>
+          </svg>
+        </div>
+        <div class="service-body">
+          <h3>Canva Designing</h3><div class="rule"></div>
+          <p>Creative designs that make your brand stand out.</p>
+        </div>
+      </div>
+
+      <div class="service-card reveal">
+        <div class="service-art">
+          <svg viewBox="0 0 300 132" preserveAspectRatio="xMidYMid slice">
+            <defs><linearGradient id="g2" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#0B1E3D"/><stop offset="100%" stop-color="#132747"/></linearGradient></defs>
+            <rect width="300" height="132" fill="url(#g2)"/>
+            <g stroke="#C9A227" stroke-width="1.6" fill="none" opacity="0.85">
+              <path d="M20 66h50M100 66h40M170 66h40M240 66h40"/>
+              <path d="M70 30v72M170 20v92M230 40v52"/>
+              <circle cx="70" cy="30" r="4" fill="#E8C15A" stroke="none"/>
+              <circle cx="70" cy="102" r="4" fill="#E8C15A" stroke="none"/>
+              <circle cx="170" cy="20" r="4" fill="#E8C15A" stroke="none"/>
+              <circle cx="170" cy="112" r="4" fill="#E8C15A" stroke="none"/>
+              <circle cx="230" cy="40" r="4" fill="#E8C15A" stroke="none"/>
+              <circle cx="230" cy="92" r="4" fill="#E8C15A" stroke="none"/>
+              <rect x="95" y="52" width="30" height="28" rx="3" stroke="#F2EFE6"/>
+            </g>
+          </svg>
+        </div>
+        <div class="service-body">
+          <h3>PCB Design</h3><div class="rule"></div>
+          <p>High-quality PCB designs for innovative and reliable electronics.</p>
+        </div>
+      </div>
+
+      <div class="service-card reveal">
+        <div class="service-art">
+          <svg viewBox="0 0 300 132" preserveAspectRatio="xMidYMid slice">
+            <defs><linearGradient id="g3" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#0B1E3D"/><stop offset="100%" stop-color="#1A3560"/></linearGradient></defs>
+            <rect width="300" height="132" fill="url(#g3)"/>
+            <g>
+              <rect x="30" y="70" width="22" height="40" rx="2" fill="#8C6427"/>
+              <rect x="62" y="50" width="22" height="60" rx="2" fill="#C9A227"/>
+              <rect x="94" y="30" width="22" height="80" rx="2" fill="#E8C15A"/>
+              <rect x="126" y="58" width="22" height="52" rx="2" fill="#C9A227"/>
+            </g>
+            <path d="M170 90 L200 55 L225 72 L260 25" stroke="#F2EFE6" stroke-width="2.6" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+            <circle cx="260" cy="25" r="5" fill="#E8C15A"/>
+            <circle cx="225" cy="72" r="4" fill="#E8C15A"/>
+          </svg>
+        </div>
+        <div class="service-body">
+          <h3>Data Analysis &amp; Visualization</h3><div class="rule"></div>
+          <p>Turn your data into powerful insights for smarter decisions.</p>
+        </div>
+      </div>
+
+      <div class="service-card reveal">
+        <div class="service-art">
+          <svg viewBox="0 0 300 132" preserveAspectRatio="xMidYMid slice">
+            <defs><linearGradient id="g4" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#0B1E3D"/><stop offset="100%" stop-color="#132747"/></linearGradient></defs>
+            <rect width="300" height="132" fill="url(#g4)"/>
+            <rect x="118" y="16" width="64" height="102" rx="12" fill="none" stroke="#F2EFE6" stroke-width="2.2"/>
+            <rect x="126" y="30" width="48" height="72" rx="3" fill="#132747" stroke="#C9A227" stroke-width="1"/>
+            <rect x="134" y="38" width="32" height="6" rx="2" fill="#E8C15A"/>
+            <rect x="134" y="50" width="32" height="6" rx="2" fill="#C9A227" opacity="0.7"/>
+            <rect x="134" y="62" width="20" height="6" rx="2" fill="#C9A227" opacity="0.5"/>
+            <circle cx="150" cy="110" r="3" fill="#F2EFE6"/>
+            <circle cx="90" cy="45" r="4" fill="#E8C15A" opacity="0.8"/>
+            <circle cx="212" cy="80" r="5" fill="#C9A227" opacity="0.8"/>
+            <circle cx="70" cy="90" r="3" fill="#F2EFE6" opacity="0.6"/>
+          </svg>
+        </div>
+        <div class="service-body">
+          <h3>App Development</h3><div class="rule"></div>
+          <p>User-friendly, fast &amp; scalable mobile apps for Android &amp; iOS platforms.</p>
+        </div>
+      </div>
+
+      <div class="service-card reveal">
+        <div class="service-art">
+          <svg viewBox="0 0 300 132" preserveAspectRatio="xMidYMid slice">
+            <defs><linearGradient id="g5" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#0B1E3D"/><stop offset="100%" stop-color="#1A3560"/></linearGradient></defs>
+            <rect width="300" height="132" fill="url(#g5)"/>
+            <rect x="40" y="24" width="220" height="86" rx="8" fill="#132747" stroke="#F2EFE6" stroke-width="1.6"/>
+            <rect x="40" y="24" width="220" height="18" rx="8" fill="#0B1E3D"/>
+            <circle cx="52" cy="33" r="2.6" fill="#E8C15A"/>
+            <circle cx="62" cy="33" r="2.6" fill="#C9A227"/>
+            <circle cx="72" cy="33" r="2.6" fill="#F2EFE6"/>
+            <rect x="54" y="54" width="70" height="42" rx="3" fill="#1A3560" stroke="#C9A227" stroke-width="1"/>
+            <rect x="132" y="54" width="112" height="10" rx="2" fill="#E8C15A" opacity="0.85"/>
+            <rect x="132" y="70" width="90" height="8" rx="2" fill="#C9A227" opacity="0.55"/>
+            <rect x="132" y="84" width="100" height="8" rx="2" fill="#C9A227" opacity="0.4"/>
+          </svg>
+        </div>
+        <div class="service-body">
+          <h3>Frontend Web Development</h3><div class="rule"></div>
+          <p>Modern, responsive web designs that deliver great user experiences.</p>
+        </div>
+      </div>
+
+      <div class="service-card reveal">
+        <div class="service-art">
+          <svg viewBox="0 0 300 132" preserveAspectRatio="xMidYMid slice">
+            <defs><linearGradient id="g6" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#0B1E3D"/><stop offset="100%" stop-color="#132747"/></linearGradient></defs>
+            <rect width="300" height="132" fill="url(#g6)"/>
+            <g>
+              <ellipse cx="150" cy="34" rx="46" ry="12" fill="#1A3560" stroke="#C9A227" stroke-width="1.4"/>
+              <path d="M104 34v22c0 6.6 20.6 12 46 12s46-5.4 46-12V34" fill="#1A3560" stroke="#C9A227" stroke-width="1.4"/>
+              <ellipse cx="150" cy="56" rx="46" ry="12" fill="none" stroke="#C9A227" stroke-width="1.4"/>
+              <path d="M104 56v22c0 6.6 20.6 12 46 12s46-5.4 46-12V56" fill="#132747" stroke="#C9A227" stroke-width="1.4"/>
+              <ellipse cx="150" cy="78" rx="46" ry="12" fill="none" stroke="#E8C15A" stroke-width="1.4"/>
+              <circle cx="126" cy="45" r="2.4" fill="#E8C15A"/>
+              <circle cx="126" cy="67" r="2.4" fill="#E8C15A"/>
+              <circle cx="126" cy="89" r="2.4" fill="#F2EFE6"/>
+            </g>
+            <path d="M210 45c14 8 14 34 0 44" stroke="#F2EFE6" stroke-width="1.8" fill="none" stroke-linecap="round" opacity="0.7"/>
+          </svg>
+        </div>
+        <div class="service-body">
+          <h3>Backend Web Development</h3><div class="rule"></div>
+          <p>Robust backend solutions to power your applications seamlessly.</p>
+        </div>
+      </div>
+
+      <div class="service-card reveal">
+        <div class="service-art">
+          <svg viewBox="0 0 300 132" preserveAspectRatio="xMidYMid slice">
+            <defs><linearGradient id="g7" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#0B1E3D"/><stop offset="100%" stop-color="#1A3560"/></linearGradient></defs>
+            <rect width="300" height="132" fill="url(#g7)"/>
+            <rect x="34" y="46" width="56" height="40" rx="6" fill="#1A3560" stroke="#E8C15A" stroke-width="1.6"/>
+            <rect x="210" y="46" width="56" height="40" rx="6" fill="#1A3560" stroke="#C9A227" stroke-width="1.6"/>
+            <path d="M90 66 C130 20 170 20 210 66" stroke="#F2EFE6" stroke-width="2.2" fill="none" stroke-linecap="round"/>
+            <circle cx="150" cy="34" r="6" fill="#E8C15A"/>
+            <rect x="44" y="56" width="36" height="6" rx="2" fill="#C9A227" opacity="0.7"/>
+            <rect x="220" y="56" width="36" height="6" rx="2" fill="#E8C15A" opacity="0.7"/>
+            <rect x="44" y="68" width="24" height="6" rx="2" fill="#C9A227" opacity="0.4"/>
+            <rect x="220" y="68" width="24" height="6" rx="2" fill="#E8C15A" opacity="0.4"/>
+          </svg>
+        </div>
+        <div class="service-body">
+          <h3>Full-Stack Web Development</h3><div class="rule"></div>
+          <p>End-to-end web solutions from UI to backend — we build it all.</p>
+        </div>
+      </div>
+
+      <div class="service-card reveal">
+        <div class="service-art">
+          <svg viewBox="0 0 300 132" preserveAspectRatio="xMidYMid slice">
+            <defs><linearGradient id="g8" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#0B1E3D"/><stop offset="100%" stop-color="#132747"/></linearGradient></defs>
+            <rect width="300" height="132" fill="url(#g8)"/>
+            <path d="M60 60 L110 44 L110 88 L60 74 Z" fill="#E8C15A"/>
+            <rect x="46" y="58" width="16" height="18" rx="3" fill="#C9A227"/>
+            <path d="M110 44 L150 30 L150 102 L110 88 Z" fill="#C9A227" opacity="0.9"/>
+            <g stroke="#F2EFE6" stroke-width="1.6" fill="none" opacity="0.75">
+              <path d="M158 46c14-6 14 46 0 40"/>
+              <path d="M172 36c22-10 22 66 0 60"/>
+              <path d="M186 26c30-14 30 86 0 80"/>
+            </g>
+            <path d="M60 90 L60 108" stroke="#F2EFE6" stroke-width="2" stroke-linecap="round"/>
+            <path d="M225 100 L245 78 L260 88 L280 55" stroke="#E8C15A" stroke-width="2.4" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+            <circle cx="280" cy="55" r="5" fill="#E8C15A"/>
+          </svg>
+        </div>
+        <div class="service-body">
+          <h3>Marketing &amp; Promotion</h3><div class="rule"></div>
+          <p>Grow your brand and reach the right audience with smart marketing strategies.</p>
+        </div>
+      </div>
+    </div>    </div>
   </div>
 </section>
 
@@ -430,6 +636,8 @@
         <span class="spinner"></span>
         <span class="btn-text">Send message</span>
       </button>
+      <p class="form-note"><strong>Site owner setup (one-time, 2 minutes):</strong> this form is wired to deliver straight to your inbox via Formspree. Go to formspree.io → sign up free → create a form → copy your form ID → replace <code>YOUR_FORM_ID</code> in the page's script with it. After that, every submission emails you automatically — no server required.</p>
+    </form>
   </div>
 </section>
 
@@ -536,12 +744,61 @@
     items.forEach(function(el){ observer.observe(el); });
   })();
 
+  // ---- Stat counters ----
+  (function(){
+    const nums = document.querySelectorAll('.stat-item .num');
+    const counterObserver = new IntersectionObserver(function(entries){
+      entries.forEach(function(entry){
+        if(!entry.isIntersecting) return;
+        const el = entry.target;
+        const target = parseInt(el.getAttribute('data-count'), 10) || 0;
+        const duration = 1400;
+        const start = performance.now();
+        function tick(now){
+          const p = Math.min((now - start) / duration, 1);
+          const eased = 1 - Math.pow(1 - p, 3);
+          el.textContent = Math.round(eased * target);
+          if(p < 1) requestAnimationFrame(tick);
+        }
+        requestAnimationFrame(tick);
+        counterObserver.unobserve(el);
+      });
+    }, { threshold: 0.4 });
+    nums.forEach(function(el){ counterObserver.observe(el); });
+  })();
+
+  // ---- Hero background subtle parallax ----
+  (function(){
+    const bg = document.querySelector('.hero-bg');
+    const hero = document.querySelector('.hero');
+    if(!bg || !hero || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    hero.addEventListener('mousemove', function(e){
+      const rect = hero.getBoundingClientRect();
+      const x = ((e.clientX - rect.left) / rect.width - 0.5) * 14;
+      const y = ((e.clientY - rect.top) / rect.height - 0.5) * 14;
+      bg.style.transform = 'translate(' + x + 'px,' + y + 'px) scale(1.04)';
+    });
+    hero.addEventListener('mouseleave', function(){ bg.style.transform = 'translate(0,0) scale(1.04)'; });
+  })();
+
+  // ---- Spotlight hover (service + why cards) ----
+  (function(){
+    const cards = document.querySelectorAll('.service-card, .why-card');
+    cards.forEach(function(card){
+      card.addEventListener('mousemove', function(e){
+        const rect = card.getBoundingClientRect();
+        card.style.setProperty('--mx', (e.clientX - rect.left) + 'px');
+        card.style.setProperty('--my', (e.clientY - rect.top) + 'px');
+      });
+    });
+  })();
+
   // ---- Contact form (Formspree) ----
   (function(){
     const form = document.getElementById('contactForm');
     const btn = document.getElementById('submitBtn');
     const status = document.getElementById('formStatus');
-    const FORM_ENDPOINT = 'https://formspree.io/f/mrpzogyb'; // <-- replace with your Formspree form ID
+    const FORM_ENDPOINT = 'https://formspree.io/f/YOUR_FORM_ID'; // <-- replace with your Formspree form ID
 
     form.addEventListener('submit', async function(e){
       e.preventDefault();
@@ -566,7 +823,7 @@
           throw new Error('Request failed');
         }
       } catch (err) {
-        status.textContent = "Couldn't send automatically — please email indrashasolutions@gmail.com directly.";
+        status.textContent = "Couldn't send automatically — please email indrashasolutions@gmail.com directly, or set up the form endpoint (see note below).";
         status.classList.add('err', 'show');
       } finally {
         btn.classList.remove('loading');
